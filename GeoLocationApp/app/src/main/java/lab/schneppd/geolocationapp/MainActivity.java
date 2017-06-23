@@ -12,15 +12,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 public class MainActivity extends AppCompatActivity {
 
     private LocationManager locationManager;
     private LocationListener locationListener;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider.
+                Toast.makeText(getApplicationContext(), "onLocationChanged", Toast.LENGTH_LONG).show();
                 makeUseOfNewLocation(location);
             }
 
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
         };
 
         // Register the listener with the Location Manager to receive location updates
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 10, locationListener);
+
     }
 
     @Override
@@ -67,22 +69,20 @@ public class MainActivity extends AppCompatActivity {
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, locationListener);
 
-        String locationProvider = LocationManager.NETWORK_PROVIDER;
-        // Or use LocationManager.GPS_PROVIDER
-
-        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        makeUseOfNewLocation(lastKnownLocation);
-
-
-
-
 
     }
 
     public void makeUseOfNewLocation(Location location){
         TextView tvDebugOutput = (TextView) findViewById(R.id.tvDebugOutput);
         if (location != null) {
-            tvDebugOutput.setText("Your location is: " + location.toString());
+            StringBuilder output = new StringBuilder();
+            output.append("Your location is: " );
+            output.append(location.toString() );
+            output.append(" details " );
+            output.append(location.getLatitude());
+            output.append(" " );
+            output.append(location.getLongitude());
+            tvDebugOutput.setText(output.toString());
         }
         else{
             tvDebugOutput.setText("No location found");
@@ -91,3 +91,5 @@ public class MainActivity extends AppCompatActivity {
 
 
 }
+
+
