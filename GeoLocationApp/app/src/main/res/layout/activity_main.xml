@@ -25,6 +25,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_margin="15dp"
+
+        android:onClick="Click_btnLaunchTest"
         />
 
 </android.support.constraint.ConstraintLayout>
